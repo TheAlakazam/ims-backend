@@ -11,26 +11,26 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     user_login: {
       type: DataTypes.STRING,
       validate: {
         isEmail: true
       },
-      allowNull: false,
+      allowNull: false
+    },
+    user_supervisor: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     },
     user_password: {
       allowNull: false,
-      type: DataTypes.STRING,
-    },
-    user_supervisor: {
-      allowNull: true,
-      type: DataTypes.UUID,
-      references: {
-        model: User,
-        key: 'id'
-      }
+      type: DataTypes.STRING
     },
     user_level: {
       allowNull: false,
@@ -45,18 +45,15 @@ module.exports = (sequelize, DataTypes) => {
       afterUpdate: async user => {
         const salt = await bcrypt.genSalt(10);
         user.user_password = await bcrypt.hash(user.user_password, salt);
-      } 
+      }
     },
 
     instanceMethods: {
-      validPassword: async password => {
-        return await bcrypt.compare(user.user_password, this.password)
-      }
+      validPassword: async password => bcrypt.compare(this.user_password, this.password)
     }
   });
-  User.associate = function(models) {
+  User.associate = function (models) {
     // associations can be defined here
-    User.hasOne(User, { as: 'user_supervisor'});
   };
   return User;
 };

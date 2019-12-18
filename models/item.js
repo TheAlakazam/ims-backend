@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     item_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     item_consumable: {
       type: DataTypes.BOOLEAN,
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   }, {});
-  Item.associate = function(models) {
+  Item.associate = function (models) {
     // associations can be defined here
   };
   return Item;
