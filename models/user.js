@@ -24,6 +24,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
+    user_supervisor: {
+      allowNull: true,
+      type: DataTypes.UUID,
+      references: {
+        model: User,
+        key: 'id'
+      }
+    },
+    user_level: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    }
   }, {
     hooks: {
       beforeCreate: async user => {
@@ -44,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = function(models) {
     // associations can be defined here
+    User.hasOne(User, { as: 'user_supervisor'});
   };
   return User;
 };

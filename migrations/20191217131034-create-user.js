@@ -20,6 +20,18 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      user_supervisor: {
+        allowNull: true,
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          key: 'id',
+        }
+      },
+      user_level: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
