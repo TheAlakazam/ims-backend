@@ -1,6 +1,9 @@
 const express = require('express');
 const userController = require('../controllers').userController;
 const router = express.Router();
+const isAuth = require('../middleware/auth');
+
+router.use(isAuth);
 
 router.get('/api/user', userController.getAllUsers);
 router.get('/api/user/:id', userController.getUser);

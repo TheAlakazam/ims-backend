@@ -46,12 +46,14 @@ module.exports = (sequelize, DataTypes) => {
         const salt = await bcrypt.genSalt(10);
         user.user_password = await bcrypt.hash(user.user_password, salt);
       }
-    },
-
-    instanceMethods: {
-      validPassword: async password => bcrypt.compare(this.user_password, this.password)
     }
   });
+  User.prototype.validPassword = async function (password) {
+    console.log(password);
+    console.log(this);
+    const auth = await bcrypt.compare(this.user_password, password);
+    return auth;
+  };
   User.associate = function (models) {
     // associations can be defined here
   };

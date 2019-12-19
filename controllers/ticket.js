@@ -6,6 +6,17 @@ const getAllTickets = async (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }));
 };
 
+const getAllTicketsRelated = async (req, res) => {
+  Ticket.findAll({
+    where: {
+      parent_ticket_id: req.body.id,
+      user_id: req.body.user_id
+    }
+  })
+    .then(tickets => res.status(200).json({ tickets }))
+    .catch(err => res.status(500).json({ error: err.message, req: req.query }));
+};
+
 const getTicket = async (req, res) => {
   Ticket.findByPk(req.params.id)
     .then(ticket => {
@@ -50,6 +61,7 @@ const deleteTicket = async (req, res) => {
 module.exports = {
   getAllTickets,
   getTicket,
+  getAllTicketsRelated,
   updateTicket,
   deleteTicket,
   createTicket
